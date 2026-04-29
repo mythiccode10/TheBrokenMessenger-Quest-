@@ -2,21 +2,29 @@ const btn = document.getElementById("fetch-btn");
 const list = document.getElementById("hero-list");
 const loader = document.getElementById("loading-spinner");
 
-// BUG 3: The function is missing the 'async' keyword
-btn.addEventListener("click", () => {
+// FIX: Added 'async' to the arrow function
+btn.addEventListener("click", async () => {
+    // 1. Show the loader
     loader.style.display = "block";
-    
-    // BUG 4: Missing 'await' - this will return a Promise object, not the response
-    const response = fetch("https://jsonplaceholder.typicode.com/users");
-    
-    // BUG 5: Logic error - trying to use data before it's converted to JSON
-    const data = response.json(); 
+    list.innerHTML = ""; // Clear list for new "Summoning"
 
-    loader.style.display = "none";
-    
-    data.forEach(hero => {
-        const li = document.createElement("li");
-        li.innerText = hero.name;
-        list.appendChild(li);
-    });
+    try {
+        // 2. FIX: Added 'await' to the fetch call
+        const response = await fetch("https://jsonplaceholder.typicode.com/users");
+        
+        // 3. FIX: Added 'await' to the .json() conversion
+        const data = await response.json(); 
+
+        // 4. Update the UI
+        data.forEach(hero => {
+            const li = document.createElement("li");
+            li.innerText = hero.name;
+            list.appendChild(li);
+        });
+    } catch (error) {
+        console.error("The summoning failed:", error);
+    } finally {
+        // 5. FIX: Ensure loader is hidden AFTER the data is processed
+        loader.style.display = "none";
+    }
 });
