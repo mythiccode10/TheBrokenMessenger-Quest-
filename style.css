@@ -1,14 +1,28 @@
+.archive-container {
+    text-align: center;
+    font-family: sans-serif;
+    padding: 50px;
+}
+
 .spinner {
     width: 40px;
     height: 40px;
     border: 4px solid #f3f3f3;
     border-top: 4px solid #3498db;
     border-radius: 50%;
-    /* BUG 1: The animation is named, but the @keyframes is missing 
-       or the 'infinite' property is forgotten. */
-    animation: spin 2s; 
-    display: none; /* Hidden by default */
+    /* FIX: Added 'infinite' and 'linear' for a smooth, non-stop spin */
+    animation: spin 1s linear infinite; 
+    display: none;
+    margin: 20px auto;
 }
 
-/* BUG 2: The student must write the @keyframes spin logic here 
-   to make the 'transform: rotate' work. */
+/* FIX: Added the missing @keyframes block */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+#hero-list {
+    list-style: none;
+    padding: 0;
+}
